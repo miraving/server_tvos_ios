@@ -14,6 +14,7 @@
 @interface IOSViewController () <AsyncClientDelegate>
 @property (nonatomic, strong) AsyncClient *client;
 
+@property (weak, nonatomic) IBOutlet UIView *indicator;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
 @end
@@ -23,7 +24,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self.indicator setBackgroundColor:[UIColor redColor]];
+    [self createClient];
+}
+- (void)createClient
+{
+    if (self.client != nil)
+    {
+        [self.client stop];
+        self.client = nil;
+    }
+    
     self.client = [[AsyncClient alloc] init];
     [self.client setServiceType:kServiceType];
     [self.client setDelegate:self];
@@ -32,7 +43,11 @@
     [self.client start];
 }
 #pragma mark - Actions
-- (IBAction)sendCommand:(UIButton *)sender
+- (IBAction)recoonect:(id)sender
+{
+    [self createClient];
+}
+- (IBAction)sendCommand1:(UIButton *)sender
 {
     NSString *tmp = sender.titleLabel.text;
     [self.client sendObject:tmp];
@@ -42,6 +57,11 @@
     NSString *tmp = sender.titleLabel.text;
     [self.client sendObject:tmp];
 
+}
+- (IBAction)sendCommand3:(UIButton *)sender
+{
+    NSString *tmp = sender.titleLabel.text;
+    [self.client sendObject:tmp];
 }
 #pragma mark - Async client delegate methods
 - (BOOL)client:(AsyncClient *)theClient didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
@@ -64,11 +84,13 @@
 - (void)client:(AsyncClient *)theClient didConnect:(AsyncConnection *)connection
 {
     NSLog(@"didConnect:");
+    [self.indicator setBackgroundColor:[UIColor greenColor]];
 }
 
 - (void)client:(AsyncClient *)theClient didDisconnect:(AsyncConnection *)connection
 {
     NSLog(@"didDisconnect");
+    [self.indicator setBackgroundColor:[UIColor redColor]];
 }
 
 - (void)client:(AsyncClient *)theClient didReceiveCommand:(AsyncCommand)command object:(id)object connection:(AsyncConnection *)connection
@@ -81,6 +103,7 @@
 - (void)client:(AsyncClient *)theClient didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError");
+    [self.indicator setBackgroundColor:[UIColor yellowColor]];
 }
 
 

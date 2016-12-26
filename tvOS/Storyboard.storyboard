@@ -21,30 +21,81 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-jL-Kz2">
-                                <rect key="frame" x="879" y="475" width="162" height="131"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🤖"/>
-                                <connections>
-                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="J1j-Ab-LaQ"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
-                                <rect key="frame" x="870" y="254" width="180" height="91"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Cj8-EB-ieL">
+                                <rect key="frame" x="606" y="409" width="708" height="262"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
+                                        <rect key="frame" x="0.0" y="0.0" width="708" height="91"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-ld-naW">
+                                        <rect key="frame" x="0.0" y="131" width="708" height="131"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-jL-Kz2">
+                                                <rect key="frame" x="0.0" y="0.0" width="162" height="131"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                                <state key="normal" title="🤖"/>
+                                                <connections>
+                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="J1j-Ab-LaQ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lMu-VX-Gbd">
+                                                <rect key="frame" x="182" y="0.0" width="162" height="131"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                                <state key="normal" title="👻"/>
+                                                <connections>
+                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="TWk-xt-5IJ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zr-Ix-rZa">
+                                                <rect key="frame" x="364" y="0.0" width="162" height="131"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                                <state key="normal" title="🎃"/>
+                                                <connections>
+                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="a9x-Ar-DFF"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaA-sI-1Nn">
+                                                <rect key="frame" x="546" y="0.0" width="162" height="131"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                                <state key="normal" title="👾"/>
+                                                <connections>
+                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="bar-4A-Ig9"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TM-5L-Pxu">
+                                <rect key="frame" x="1820" y="50" width="50" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0042176926509999999" blue="0.0049510537650000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="0TZ-pI-pGw"/>
+                                    <constraint firstAttribute="height" constant="50" id="aQE-Uu-9oE"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="Ce4-hS-Hs2"/>
-                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="centerY" secondItem="xnK-6b-JRF" secondAttribute="centerY" id="VJW-ad-wO7"/>
-                            <constraint firstItem="x5b-OX-75a" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="WWJ-Vq-PoV"/>
-                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="top" secondItem="x5b-OX-75a" secondAttribute="bottom" constant="130" id="YDM-zg-NLx"/>
+                            <constraint firstItem="6TM-5L-Pxu" firstAttribute="top" secondItem="rmC-l4-UPH" secondAttribute="bottom" constant="50" id="5kn-t5-c1L"/>
+                            <constraint firstItem="Cj8-EB-ieL" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="Bzc-2a-oaH"/>
+                            <constraint firstItem="Cj8-EB-ieL" firstAttribute="centerY" secondItem="xnK-6b-JRF" secondAttribute="centerY" id="Z5S-JA-qMc"/>
+                            <constraint firstAttribute="trailing" secondItem="6TM-5L-Pxu" secondAttribute="trailing" constant="50" id="pjp-DM-qOp"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="indicator" destination="6TM-5L-Pxu" id="iPw-yr-lAB"/>
                         <outlet property="label" destination="x5b-OX-75a" id="UwX-sg-6gW"/>
                     </connections>
                 </viewController>

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) AsyncServer *server;
 
 @property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIView *indicator;
 
 @end
 
@@ -42,11 +43,13 @@
 - (void)server:(AsyncServer *)theServer didConnect:(AsyncConnection *)connection
 {
     NSLog(@"didConnect");
+    [self.indicator setBackgroundColor:[UIColor greenColor]];
 }
 
 - (void)server:(AsyncServer *)theServer didDisconnect:(AsyncConnection *)connection
 {
     NSLog(@"didDisconnect");
+    [self.indicator setBackgroundColor:[UIColor redColor]];
 }
 
 - (void)server:(AsyncServer *)theServer didReceiveCommand:(AsyncCommand)command object:(id)object connection:(AsyncConnection *)connection
@@ -60,6 +63,7 @@
 - (void)server:(AsyncServer *)theServer didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error.localizedDescription);
+    [self.indicator setBackgroundColor:[UIColor yellowColor]];
 }
 
 @end
