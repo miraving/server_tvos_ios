@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FSe-xW-IsB">
+    <device id="appleTV" orientation="landscape">
+        <adaptation id="light"/>
+    </device>
+    <dependencies>
+        <deployment identifier="tvOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--TVOSViewController-->
+        <scene sceneID="cQL-iA-Bp7">
+            <objects>
+                <viewController storyboardIdentifier="TVOSViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FSe-xW-IsB" userLabel="TVOSViewController" customClass="TVOSViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rmC-l4-UPH"/>
+                        <viewControllerLayoutGuide type="bottom" id="OLR-41-4Ok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xnK-6b-JRF">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-jL-Kz2">
+                                <rect key="frame" x="879" y="475" width="162" height="131"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🤖"/>
+                                <connections>
+                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="J1j-Ab-LaQ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
+                                <rect key="frame" x="870" y="254" width="180" height="91"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="Ce4-hS-Hs2"/>
+                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="centerY" secondItem="xnK-6b-JRF" secondAttribute="centerY" id="VJW-ad-wO7"/>
+                            <constraint firstItem="x5b-OX-75a" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="WWJ-Vq-PoV"/>
+                            <constraint firstItem="cPb-jL-Kz2" firstAttribute="top" secondItem="x5b-OX-75a" secondAttribute="bottom" constant="130" id="YDM-zg-NLx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="x5b-OX-75a" id="UwX-sg-6gW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oWj-ID-VxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-169" y="99"/>
+        </scene>
+    </scenes>
+</document>
