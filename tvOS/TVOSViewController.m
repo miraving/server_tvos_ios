@@ -7,63 +7,93 @@
 //
 
 #import "TVOSViewController.h"
-#import "AsyncServer.h"
 #import "Defines.h"
+#import <CloudKit/CloudKit.h>
 
-@interface TVOSViewController () <AsyncServerDelegate>
-@property (nonatomic, strong) AsyncServer *server;
-
+@interface TVOSViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) IBOutlet UIView *indicator;
+// CloudKit
+@property (nonatomic, strong) CKContainer *cloudContainer;
+@property (nonatomic, strong) CKDatabase *publicDB;
+@property (nonatomic, strong) CKDatabase *privateDB;
 
 @end
 
 @implementation TVOSViewController
 
+- (void)loadView
+{
+    [super loadView];
+    // CloudKit
+    self.cloudContainer = [CKContainer containerWithIdentifier:kDefaultContainerIdentifier];
+    self.publicDB = self.cloudContainer.publicCloudDatabase;
+    self.privateDB = self.cloudContainer.privateCloudDatabase;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.server = [[AsyncServer alloc] init];
-    [self.server setServiceType:kServiceType];
-    [self.server setServiceName:kServiceName];
-    [self.server setPort:kServicePort];
-    [self.server setDelegate:self];
-    
-    [self.server start];
+    [self cloudSetup];
+}
+
+#pragma mark - CloudKit
+- (void)cloudSetup
+{
+    [[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError *error) {
+        if (accountStatus == CKAccountStatusNoAccount) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sign in to iCloud"
+                                                                           message:@"Sign in to your iCloud account to write records. On the Home screen, launch Settings, tap iCloud, and enter your Apple ID. Turn iCloud Drive on. If you don't have an iCloud account, tap Create a new Apple ID."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Okay"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            [self loadCloudData];
+        }
+    }];
+}
+
+- (void)loadCloudData
+{
+    NSPredicate *predicate = [NSPredicate predicateWithValue:YES];//predicateWithFormat:@"StringField == '222'"];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"MyRecords" predicate:predicate];
+    [self.publicDB performQuery:query inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> *results, NSError *error) {
+       
+        if (error == nil)
+        {
+            NSLog(@"Results: %@", results);
+        }
+        else
+        {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Actions
 - (IBAction)sendCommand:(UIButton *)sender
 {
-    [self.server sendObject:sender.titleLabel.text];
-}
-
-#pragma mark - Async server delegate methods
-- (void)server:(AsyncServer *)theServer didConnect:(AsyncConnection *)connection
-{
-    NSLog(@"didConnect");
-    [self.indicator setBackgroundColor:[UIColor greenColor]];
-}
-
-- (void)server:(AsyncServer *)theServer didDisconnect:(AsyncConnection *)connection
-{
-    NSLog(@"didDisconnect");
-    [self.indicator setBackgroundColor:[UIColor redColor]];
-}
-
-- (void)server:(AsyncServer *)theServer didReceiveCommand:(AsyncCommand)command object:(id)object connection:(AsyncConnection *)connection
-{
-    NSLog(@"didReceiveCommand -> %@", object);
-    NSLog(@"Service.connection: %@", theServer.connections);
+    NSString *ident = [NSString stringWithFormat:@"%lu", (unsigned long)[NSDate new].description.hash];
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:ident];
+    CKRecord *record = [[CKRecord alloc] initWithRecordType:@"MyRecords" recordID:recordID];
     
-    [self.label setText:[NSString stringWithFormat:@"Recived: %@", object]];
-}
+    record[@"StringField"] = sender.titleLabel.text;
 
-- (void)server:(AsyncServer *)theServer didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error.localizedDescription);
-    [self.indicator setBackgroundColor:[UIColor yellowColor]];
+    [self.publicDB saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+        
+        if (error == nil)
+        {
+            NSLog(@"Result: %@", record);
+        }
+        else
+        {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 @end

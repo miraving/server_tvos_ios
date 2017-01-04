@@ -7,104 +7,101 @@
 //
 
 #import "IOSViewController.h"
-#import "AsyncClient.h"
 #import "Defines.h"
+#import <CloudKit/CloudKit.h>
 
-
-@interface IOSViewController () <AsyncClientDelegate>
-@property (nonatomic, strong) AsyncClient *client;
-
+@interface IOSViewController ()
 @property (weak, nonatomic) IBOutlet UIView *indicator;
 @property (weak, nonatomic) IBOutlet UILabel *label;
+// CloudKit
+@property (nonatomic, strong) CKContainer *cloudContainer;
+@property (nonatomic, strong) CKDatabase *publicDB;
+@property (nonatomic, strong) CKDatabase *privateDB;
 
 @end
 
 @implementation IOSViewController
+
+- (void)loadView
+{
+    [super loadView];
+    
+    // CloudKit
+    self.cloudContainer = [CKContainer containerWithIdentifier:kDefaultContainerIdentifier];
+    self.publicDB = self.cloudContainer.publicCloudDatabase;
+    self.privateDB = self.cloudContainer.privateCloudDatabase;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.indicator setBackgroundColor:[UIColor redColor]];
     [self createClient];
+ 
+    [self cloudSetup];
 }
-- (void)createClient
+
+// Cloud
+- (void)cloudSetup
 {
-    if (self.client != nil)
-    {
-        [self.client stop];
-        self.client = nil;
-    }
+    CKQuerySubscription *qSubscription = [[CKQuerySubscription alloc] initWithRecordType:@"MyRecords"
+                                                                               predicate:[NSPredicate predicateWithValue:YES]
+                                                                                 options:CKQuerySubscriptionOptionsFiresOnRecordUpdate];
     
-    self.client = [[AsyncClient alloc] init];
-    [self.client setServiceType:kServiceType];
-    [self.client setDelegate:self];
-    [self.client setAutoConnect:YES];
-    [self.client setIncludesPeerToPeer:YES];
-    [self.client start];
+    CKNotificationInfo *notification = [[CKNotificationInfo alloc] init];
+    [notification setShouldBadge:YES];
+    
+    [qSubscription setNotificationInfo:notification];
+    [self.publicDB saveSubscription:qSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
+        
+        if (error == nil)
+        {
+            NSLog(@"Result: %@", subscription);
+        }
+        else
+        {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
-#pragma mark - Actions
-- (IBAction)recoonect:(id)sender
+
+#pragma mark - Cloud
+- (void)newObject:(NSString *)value
 {
-    [self createClient];
+    NSString *ident = [NSString stringWithFormat:@"%lu", (unsigned long)[NSDate new].description.hash];
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:ident];
+    CKRecord *record = [[CKRecord alloc] initWithRecordType:@"MyRecords" recordID:recordID];
+    
+    record[@"StringField"] = value;
+    
+    [self.publicDB saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+        
+        if (error == nil)
+        {
+            NSLog(@"Result: %@", record);
+        }
+        else
+        {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+        
+    }];
 }
+
+#pragma mark - Actions
 - (IBAction)sendCommand1:(UIButton *)sender
 {
     NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
+    [self newObject:tmp];
 }
 - (IBAction)sendCommand2:(UIButton *)sender
 {
     NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
-
+    [self newObject:tmp];
 }
 - (IBAction)sendCommand3:(UIButton *)sender
 {
     NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
+    [self newObject:tmp];
 }
-#pragma mark - Async client delegate methods
-- (BOOL)client:(AsyncClient *)theClient didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
-{
-    NSLog(@"service:\n%@\n%@",  service.name, service.type);
-    
-    if (moreComing)
-    {
-        if ([service.name isEqualToString:kServiceName] &&
-            [service.type isEqualToString:kServiceType])
-        {
-            return YES;
-        }
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (void)client:(AsyncClient *)theClient didConnect:(AsyncConnection *)connection
-{
-    NSLog(@"didConnect:");
-    [self.indicator setBackgroundColor:[UIColor greenColor]];
-}
-
-- (void)client:(AsyncClient *)theClient didDisconnect:(AsyncConnection *)connection
-{
-    NSLog(@"didDisconnect");
-    [self.indicator setBackgroundColor:[UIColor redColor]];
-}
-
-- (void)client:(AsyncClient *)theClient didReceiveCommand:(AsyncCommand)command object:(id)object connection:(AsyncConnection *)connection
-{
-    NSLog(@"didReceiveCommand");
-    NSLog(@"%@", object);
-    [self.label setText:[NSString stringWithFormat:@"Recived: %@", object]];
-}
-
-- (void)client:(AsyncClient *)theClient didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError");
-    [self.indicator setBackgroundColor:[UIColor yellowColor]];
-}
-
-
 @end

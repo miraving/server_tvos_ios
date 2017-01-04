@@ -15,5 +15,6 @@
 #define kServiceName    @"_miraving_"
 #define kServicePort    23578
 
+#define kDefaultContainerIdentifier @"iCloud.com.miraving.ios"
 
 #endif /* Defines_h */
