@@ -9,14 +9,15 @@
 #import "IOSViewController.h"
 #import "AsyncClient.h"
 #import "Defines.h"
+#import <SafariServices/SafariServices.h>
 
 
 @interface IOSViewController () <AsyncClientDelegate>
 @property (nonatomic, strong) AsyncClient *client;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buyButton;
 
-@property (weak, nonatomic) IBOutlet UIView *indicator;
-@property (weak, nonatomic) IBOutlet UILabel *label;
-
+@property (nonatomic, copy) NSString *recivedURL;
 @end
 
 @implementation IOSViewController
@@ -24,8 +25,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.indicator setBackgroundColor:[UIColor redColor]];
+    
+    [self.buyButton setEnabled:NO];
+    [self.buyButton setTarget:self];
+    [self.buyButton setAction:@selector(buyTap:)];
+    
+    [self.refreshButton setEnabled:YES];
+    [self.refreshButton setTarget:self];
+    [self.refreshButton setAction:@selector(refreshTap:)];
+    
     [self createClient];
+    
+#if DEBUG
+//    [self.buyButton setEnabled:YES];
+//    [self setRecivedURL:@"http://google.com.ua/"];
+#endif
 }
 - (void)createClient
 {
@@ -43,26 +57,24 @@
     [self.client start];
 }
 #pragma mark - Actions
-- (IBAction)recoonect:(id)sender
+- (void)refreshTap:(id)sender
 {
     [self createClient];
 }
-- (IBAction)sendCommand1:(UIButton *)sender
-{
-    NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
-}
-- (IBAction)sendCommand2:(UIButton *)sender
-{
-    NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
 
-}
-- (IBAction)sendCommand3:(UIButton *)sender
+- (void)buyTap:(id)sender
 {
-    NSString *tmp = sender.titleLabel.text;
-    [self.client sendObject:tmp];
+    if (self.recivedURL.length > 0)
+    {
+        NSURL *url = [NSURL URLWithString:self.recivedURL];
+        if (url)
+        {
+            SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
+            [self.navigationController presentViewController:controller animated:YES completion:nil];
+        }
+    }
 }
+
 #pragma mark - Async client delegate methods
 - (BOOL)client:(AsyncClient *)theClient didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
 {
@@ -84,26 +96,35 @@
 - (void)client:(AsyncClient *)theClient didConnect:(AsyncConnection *)connection
 {
     NSLog(@"didConnect:");
-    [self.indicator setBackgroundColor:[UIColor greenColor]];
+    [self.refreshButton setEnabled:NO];
 }
 
 - (void)client:(AsyncClient *)theClient didDisconnect:(AsyncConnection *)connection
 {
     NSLog(@"didDisconnect");
-    [self.indicator setBackgroundColor:[UIColor redColor]];
+    [self.refreshButton setEnabled:YES];
 }
 
 - (void)client:(AsyncClient *)theClient didReceiveCommand:(AsyncCommand)command object:(id)object connection:(AsyncConnection *)connection
 {
     NSLog(@"didReceiveCommand");
     NSLog(@"%@", object);
-    [self.label setText:[NSString stringWithFormat:@"Recived: %@", object]];
+    if ([object isKindOfClass:[NSString class]])
+    {
+        self.recivedURL = object;
+        [self.buyButton setEnabled:YES];
+    }
+    else
+    {
+        [self.buyButton setEnabled:NO];
+    }
 }
 
 - (void)client:(AsyncClient *)theClient didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError");
-    [self.indicator setBackgroundColor:[UIColor yellowColor]];
+    [self.buyButton setEnabled:NO];
+    [self.refreshButton setEnabled:YES];
 }
 
 

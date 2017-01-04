@@ -36,7 +36,8 @@
 #pragma mark - Actions
 - (IBAction)sendCommand:(UIButton *)sender
 {
-    [self.server sendObject:sender.titleLabel.text];
+//    [self.server sendObject:sender.titleLabel.text];
+    [self.server sendObject:@"http://www.ticketmaster.com/Sesame-Street-Live-Elmo-Makes-tickets/artist/1031517?tm_link=tm_browse_rc_image4"];
 }
 
 #pragma mark - Async server delegate methods

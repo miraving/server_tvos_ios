@@ -22,51 +22,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Cj8-EB-ieL">
-                                <rect key="frame" x="606" y="409" width="708" height="262"/>
+                                <rect key="frame" x="185" y="409" width="1551" height="262"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
-                                        <rect key="frame" x="0.0" y="0.0" width="708" height="91"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sesame Street Live : Elmo Makes Music Tickets" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
+                                        <rect key="frame" x="0.0" y="0.0" width="1551" height="91"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-ld-naW">
-                                        <rect key="frame" x="0.0" y="131" width="708" height="131"/>
+                                        <rect key="frame" x="0.0" y="131" width="1551" height="131"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-jL-Kz2">
-                                                <rect key="frame" x="0.0" y="0.0" width="162" height="131"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1551" height="131"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                                <state key="normal" title="🤖"/>
+                                                <state key="normal" title="BUY"/>
                                                 <connections>
                                                     <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="J1j-Ab-LaQ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lMu-VX-Gbd">
-                                                <rect key="frame" x="182" y="0.0" width="162" height="131"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                                <state key="normal" title="👻"/>
-                                                <connections>
-                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="TWk-xt-5IJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zr-Ix-rZa">
-                                                <rect key="frame" x="364" y="0.0" width="162" height="131"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                                <state key="normal" title="🎃"/>
-                                                <connections>
-                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="a9x-Ar-DFF"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaA-sI-1Nn">
-                                                <rect key="frame" x="546" y="0.0" width="162" height="131"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                                <state key="normal" title="👾"/>
-                                                <connections>
-                                                    <action selector="sendCommand:" destination="FSe-xW-IsB" eventType="primaryActionTriggered" id="bar-4A-Ig9"/>
                                                 </connections>
                                             </button>
                                         </subviews>
