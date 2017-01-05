@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "IOSViewController.h"
 
 @interface AppDelegate ()
 
@@ -44,6 +45,21 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"%@\n%@", NSStringFromSelector(_cmd), userInfo);
+    
+    
+    if (userInfo[@"ck"])
+    {
+        NSString *objectID = [userInfo valueForKeyPath:@"ck.qry.rid"];
+        if (objectID)
+        {
+            UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+            IOSViewController *controller = navController.viewControllers.firstObject;
+            if ([controller isKindOfClass:[IOSViewController class]])
+            {
+                [controller setReciveObjectID:objectID];
+            }
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

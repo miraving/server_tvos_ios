@@ -9,4 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface IOSViewController : UIViewController
+@property (nonatomic, copy) NSString *reciveObjectID;
 @end

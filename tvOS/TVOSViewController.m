@@ -81,7 +81,7 @@
     CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:ident];
     CKRecord *record = [[CKRecord alloc] initWithRecordType:@"MyRecords" recordID:recordID];
     
-    record[@"StringField"] = sender.titleLabel.text;
+    record[@"StringField"] = @"http://www.ticketmaster.com/";
 
     [self.publicDB saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
         

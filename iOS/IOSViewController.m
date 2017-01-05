@@ -9,10 +9,12 @@
 #import "IOSViewController.h"
 #import "Defines.h"
 #import <CloudKit/CloudKit.h>
+#import <SafariServices/SafariServices.h>
 
 @interface IOSViewController ()
-@property (weak, nonatomic) IBOutlet UIView *indicator;
-@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buyButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+
 // CloudKit
 @property (nonatomic, strong) CKContainer *cloudContainer;
 @property (nonatomic, strong) CKDatabase *publicDB;
@@ -35,9 +37,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.indicator setBackgroundColor:[UIColor redColor]];
-    [self createClient];
- 
     [self cloudSetup];
 }
 
@@ -46,10 +45,12 @@
 {
     CKQuerySubscription *qSubscription = [[CKQuerySubscription alloc] initWithRecordType:@"MyRecords"
                                                                                predicate:[NSPredicate predicateWithValue:YES]
-                                                                                 options:CKQuerySubscriptionOptionsFiresOnRecordUpdate];
+                                                                                 options:CKQuerySubscriptionOptionsFiresOnRecordCreation];
     
     CKNotificationInfo *notification = [[CKNotificationInfo alloc] init];
-    [notification setShouldBadge:YES];
+//    [notification setShouldBadge:YES];
+    [notification setAlertBody:@"Tap to buy ticket..."];
+    [notification setShouldSendContentAvailable:YES];
     
     [qSubscription setNotificationInfo:notification];
     [self.publicDB saveSubscription:qSubscription completionHandler:^(CKSubscription *subscription, NSError *error) {
@@ -65,43 +66,50 @@
     }];
 }
 
-#pragma mark - Cloud
-- (void)newObject:(NSString *)value
+- (void)fetchRemoteTicket
 {
-    NSString *ident = [NSString stringWithFormat:@"%lu", (unsigned long)[NSDate new].description.hash];
-    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:ident];
-    CKRecord *record = [[CKRecord alloc] initWithRecordType:@"MyRecords" recordID:recordID];
-    
-    record[@"StringField"] = value;
-    
-    [self.publicDB saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
-        
-        if (error == nil)
-        {
-            NSLog(@"Result: %@", record);
-        }
-        else
-        {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-        
-    }];
+    if (self.reciveObjectID)
+    {
+        CKRecordID *objID = [[CKRecordID alloc] initWithRecordName:self.reciveObjectID];
+        [self.publicDB fetchRecordWithID:objID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+            
+            NSLog(@"%@", record);
+            
+            if (error == nil)
+            {
+                NSString *str = record[@"StringField"];
+                NSURL *url = [NSURL URLWithString:str];
+                if (url)
+                {
+                    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
+                    [self.navigationController presentViewController:controller animated:YES completion:^{
+                        
+                        [self.publicDB deleteRecordWithID:record.recordID completionHandler:^(CKRecordID * _Nullable recordID, NSError * _Nullable error) {
+                            
+                            NSLog(@"Delete record complite! Error: %@", error.localizedDescription);
+                        }];
+                    }];
+                }
+            }
+        }];
+    }
+}
+
+- (void)setReciveObjectID:(NSString *)value
+{
+    _reciveObjectID = [value copy];
+    [self fetchRemoteTicket];
 }
 
 #pragma mark - Actions
-- (IBAction)sendCommand1:(UIButton *)sender
+- (void)refteshTap:(id)sender
 {
-    NSString *tmp = sender.titleLabel.text;
-    [self newObject:tmp];
+    
 }
-- (IBAction)sendCommand2:(UIButton *)sender
+
+- (void)buyTap:(id)sender
 {
-    NSString *tmp = sender.titleLabel.text;
-    [self newObject:tmp];
+    
 }
-- (IBAction)sendCommand3:(UIButton *)sender
-{
-    NSString *tmp = sender.titleLabel.text;
-    [self newObject:tmp];
-}
+
 @end
