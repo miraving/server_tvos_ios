@@ -22,19 +22,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Cj8-EB-ieL">
-                                <rect key="frame" x="185" y="409" width="1551" height="262"/>
+                                <rect key="frame" x="585" y="420" width="751" height="240"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sesame Street Live : Elmo Makes Music Tickets" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
-                                        <rect key="frame" x="0.0" y="0.0" width="1551" height="91"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                        <nil key="textColor"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5b-OX-75a">
+                                        <rect key="frame" x="0.0" y="0.0" width="751" height="69"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Ticket on:">
+                                                <attributes>
+                                                    <font key="NSFont" size="24" name=".SFNSText"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment>
+                                                <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="system" size="17"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="Sesame Street Live : Elmo Makes Music Tickets">
+                                                <attributes>
+                                                    <font key="NSFont" size="35" name="SFUIDisplay-Light"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-ld-naW">
-                                        <rect key="frame" x="0.0" y="131" width="1551" height="131"/>
+                                        <rect key="frame" x="0.0" y="109" width="751" height="131"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-jL-Kz2">
-                                                <rect key="frame" x="0.0" y="0.0" width="1551" height="131"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="751" height="131"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                                 <state key="normal" title="BUY"/>
@@ -59,15 +80,25 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Ticketmaster app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y0p-F3-rLe">
+                                <rect key="frame" x="1265" y="47" width="505" height="58"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <color key="textColor" red="0.4841945171" green="0.5482023358" blue="0.60657745600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="6TM-5L-Pxu" firstAttribute="top" secondItem="rmC-l4-UPH" secondAttribute="bottom" constant="50" id="5kn-t5-c1L"/>
                             <constraint firstItem="Cj8-EB-ieL" firstAttribute="centerX" secondItem="xnK-6b-JRF" secondAttribute="centerX" id="Bzc-2a-oaH"/>
                             <constraint firstItem="Cj8-EB-ieL" firstAttribute="centerY" secondItem="xnK-6b-JRF" secondAttribute="centerY" id="Z5S-JA-qMc"/>
+                            <constraint firstItem="6TM-5L-Pxu" firstAttribute="centerY" secondItem="y0p-F3-rLe" secondAttribute="centerY" id="iYS-Kl-Kdv"/>
                             <constraint firstAttribute="trailing" secondItem="6TM-5L-Pxu" secondAttribute="trailing" constant="50" id="pjp-DM-qOp"/>
+                            <constraint firstItem="6TM-5L-Pxu" firstAttribute="leading" secondItem="y0p-F3-rLe" secondAttribute="trailing" constant="50" id="t57-zH-hbV"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buyButton" destination="cPb-jL-Kz2" id="nC1-aP-tji"/>
+                        <outlet property="hintLabel" destination="y0p-F3-rLe" id="AMG-f8-qa3"/>
                         <outlet property="indicator" destination="6TM-5L-Pxu" id="iPw-yr-lAB"/>
                         <outlet property="label" destination="x5b-OX-75a" id="UwX-sg-6gW"/>
                     </connections>
